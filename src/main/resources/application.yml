@@ -1,0 +1,8 @@
+validate-service:
+  password-validate:
+    positive-regex-pattern-list:
+      - "[0-9a-z]{5,12}"
+      - ".*[0-9].*"
+      - ".*[a-z].*"
+    negative-regex-pattern-list:
+      - ".*(\\w+)\\1.*"
