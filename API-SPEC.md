@@ -45,7 +45,7 @@ http://localhost:8080/api/
 
 ### Validate Password
 
-查詢票券
+驗證密碼正確性
 
 ```mermaid
 graph TB
