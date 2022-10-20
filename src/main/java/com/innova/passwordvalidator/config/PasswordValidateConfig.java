@@ -21,14 +21,14 @@ public class PasswordValidateConfig {
     private List<String> negativeRegexPatternList;
 
     @Bean(value = "passwordValidateServiceRuleList")
-    public List<AbstractRule> getRuleList() {
+    public List<AbstractRule> getRules() {
         List<AbstractRule> result = new ArrayList<>();
         result.addAll(getRuleListFromPatternList(this.positiveRegexPatternList, true));
         result.addAll(getRuleListFromPatternList(this.negativeRegexPatternList, false));
         return result;
     }
 
-    private List<AbstractRule> getRuleListFromPatternList(List<String> list, boolean isPositive) {
+    private List<RegularExpressionRule> getRuleListFromPatternList(List<String> list, boolean isPositive) {
         return list.stream()
                 .map(x -> new RegularExpressionRule(x, isPositive))
                 .collect(Collectors.toList());

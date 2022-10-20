@@ -1,20 +1,16 @@
 package com.innova.passwordvalidator.service.impl;
 
-import com.innova.passwordvalidator.config.PasswordValidateConfig;
 import com.innova.passwordvalidator.enums.ResponseCode;
 import com.innova.passwordvalidator.exception.ValidateServiceException;
 import com.innova.passwordvalidator.model.ResultDetail;
 import com.innova.passwordvalidator.model.ValidateServiceResultEntity;
 import com.innova.passwordvalidator.rule.AbstractRule;
-import com.innova.passwordvalidator.rule.Rule;
-import com.innova.passwordvalidator.rule.impl.RegularExpressionRule;
 import com.innova.passwordvalidator.service.ValidateService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,15 +20,15 @@ public class PasswordValidateService implements ValidateService {
 
     @Autowired
     @Qualifier(value = "passwordValidateServiceRuleList")
-    private List<AbstractRule> ruleList;
+    private List<AbstractRule> rules;
 
     public ValidateServiceResultEntity validatePassword(String password) throws ValidateServiceException {
         ValidateServiceResultEntity result = null;
-        if (ruleList != null && ruleList.size() > 0) {
-            List<ResultDetail> details = ruleList.stream()
+        if (rules != null && rules.size() > 0) {
+            List<ResultDetail> details = rules.stream()
                     .map(x -> new ResultDetail(x.getName(), x.check(password)))
                     .collect(Collectors.toList());
-            boolean isCheckPass = details.stream().allMatch(x -> x.isCheckPass());
+            boolean isCheckPass = details.stream().allMatch(ResultDetail::isCheckPass);
             result = new ValidateServiceResultEntity(isCheckPass, details);
         } else {
             throw new ValidateServiceException(ResponseCode.ERROR, "no rule config");
