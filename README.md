@@ -21,7 +21,7 @@ mvn clean install
 
 Service startup
 ```
-java -jar ./target/passwordvalidator-0.0.1-SNAPSHOT.jar
+java -jar ./target/passwordvalidator-22.10.1.jar
 ```
 
 ### Test
