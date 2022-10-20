@@ -6,10 +6,12 @@ import com.innova.passwordvalidator.exception.ValidateServiceException;
 import com.innova.passwordvalidator.model.ResultDetail;
 import com.innova.passwordvalidator.model.ValidateServiceResultEntity;
 import com.innova.passwordvalidator.rule.AbstractRule;
+import com.innova.passwordvalidator.rule.Rule;
 import com.innova.passwordvalidator.rule.impl.RegularExpressionRule;
 import com.innova.passwordvalidator.service.ValidateService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,18 +22,9 @@ import java.util.stream.Collectors;
 @Data
 public class PasswordValidateService implements ValidateService {
 
-    private List<AbstractRule> ruleList;
-
     @Autowired
-    public PasswordValidateService(PasswordValidateConfig passwordValidateConfig) {
-        this.ruleList = new ArrayList<>();
-        this.ruleList.addAll(passwordValidateConfig.getPositiveRegexPatternList().stream()
-                .map(x -> new RegularExpressionRule(x, true))
-                .collect(Collectors.toList()));
-        this.ruleList.addAll(passwordValidateConfig.getNegativeRegexPatternList().stream()
-                .map(x -> new RegularExpressionRule(x, false))
-                .collect(Collectors.toList()));
-    }
+    @Qualifier(value = "passwordValidateServiceRuleList")
+    private List<AbstractRule> ruleList;
 
     public ValidateServiceResultEntity validatePassword(String password) throws ValidateServiceException {
         ValidateServiceResultEntity result = null;

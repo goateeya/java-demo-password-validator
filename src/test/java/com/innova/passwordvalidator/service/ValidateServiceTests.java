@@ -14,7 +14,7 @@ public class ValidateServiceTests {
     @Test
     public void testPasswordValidateService() {
         assertAll(
-            () -> assertTrue(passwordValidateService.validate("123456a").isCheckPass()),
+                () -> assertTrue(passwordValidateService.validate("123456a").isCheckPass()),
                 () -> assertTrue(passwordValidateService.validate("123456abc").isCheckPass()),
                 () -> assertTrue(passwordValidateService.validate("123456789abc").isCheckPass()),
                 () -> assertTrue(passwordValidateService.validate("abc1abc").isCheckPass()),
